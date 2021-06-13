@@ -1,5 +1,9 @@
+import random
+
+from django.contrib.auth.models import User
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from product.models import Product
 from product.serializers import ProductSerializer
@@ -33,3 +37,10 @@ class ProductViewSet(viewsets.ViewSet):
         product = Product.objects.get(id=pk)
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class UserApiView(APIView):
+    def get(self, _):
+        users = User.objects.all()
+        user = random.choice(users)
+        return Response({"id": user.id})
